@@ -1,0 +1,6 @@
+@FenecApi_HostAddress = http://localhost:5160
+
+GET {{FenecApi_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
