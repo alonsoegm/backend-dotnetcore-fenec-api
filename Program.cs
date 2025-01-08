@@ -1,4 +1,6 @@
 
+using FenecApi.Extensions;
+
 namespace FenecApi
 {
     public class Program
@@ -7,9 +9,15 @@ namespace FenecApi
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            // Add services to the container.
+			// Add services to the container.
 
-            builder.Services.AddControllers();
+
+			// Configure Services ==>
+			builder.Services.ConfigureDbContext(builder.Configuration);
+			builder.Services.ConfigureDependencies();
+
+
+			builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
@@ -23,12 +31,11 @@ namespace FenecApi
                 app.UseSwaggerUI();
             }
 
-            app.UseHttpsRedirection();
+			// Configure Middlewares ==>
+			app.ConfigureMiddlewares();
 
-            app.UseAuthorization();
 
-
-            app.MapControllers();
+			app.MapControllers();
 
             app.Run();
         }
