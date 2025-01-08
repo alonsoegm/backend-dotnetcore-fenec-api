@@ -1,5 +1,6 @@
 
 using FenecApi.Extensions;
+using FenecApi.Mapping;
 
 namespace FenecApi
 {
@@ -15,6 +16,7 @@ namespace FenecApi
 			// Configure Services ==>
 			builder.Services.ConfigureDbContext(builder.Configuration);
 			builder.Services.ConfigureDependencies();
+			builder.Services.AddAutoMapper(typeof(AutoMapperProfile));
 
 
 			builder.Services.AddControllers();
