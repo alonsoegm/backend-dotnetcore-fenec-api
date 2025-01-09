@@ -7,8 +7,11 @@ namespace FenecApi.Extensions
 	{
 		public static void ConfigureDbContext(this IServiceCollection services, IConfiguration configuration)
 		{
+			var connectionString = configuration.GetConnectionString("DefaultConnection")
+					 ?? Environment.GetEnvironmentVariable("DefaultConnection");
+
 			services.AddDbContext<FenecDbContext>(options =>
-				options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
+				options.UseSqlServer(connectionString));
 		}
 	}
 }
