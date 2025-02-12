@@ -128,8 +128,8 @@ Feel free to **fork** this project, open **issues**, and submit **pull requests*
 ---
 
 ## **📞 Contact**
-- **GitHub:** [Your GitHub Profile](https://github.com/alonsoegm)
-- **LinkedIn:** [Your LinkedIn Profile](https://linkedin.com/in/alonsogallegosmesen)
+- **GitHub:** alonsoegm(https://github.com/alonsoegm)
+- **LinkedIn:** Alonso Gallegos(https://linkedin.com/in/alonsogallegosmesen)
 - **Email:** alonsoegm@gmail.com
 
 ---
