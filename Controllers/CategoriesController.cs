@@ -12,33 +12,65 @@ namespace FenecApi.Controllers
 	public class CategoriesController : ControllerBase
 	{
 		private readonly ICategoryService _categoryService;
+		private readonly ILogger<CategoriesController> _logger;
 
-		public CategoriesController(ICategoryService categoryService)
+		/// <summary>
+		/// Initializes a new instance of the <see cref="CategoriesController"/> class.
+		/// </summary>
+		/// <param name="categoryService">The category service.</param>
+		/// <param name="logger">The logger instance.</param>
+		public CategoriesController(ICategoryService categoryService, ILogger<CategoriesController> logger)
 		{
 			_categoryService = categoryService;
+			_logger = logger;
 		}
 
 		/// <summary>
 		/// Retrieves a list of all categories.
 		/// </summary>
-		/// <returns>An IActionResult containing the list of categories.</returns>
+		/// <returns>A list of categories.</returns>
 		[HttpGet]
+		[ProducesResponseType(typeof(List<CategoryDto>), 200)] // OK
+		[ProducesResponseType(500)] // Internal Server Error
 		public async Task<IActionResult> GetCategories()
 		{
+			_logger.LogInformation("Received request to get all categories.");
+
 			var response = await _categoryService.GetAllCategoriesAsync();
-			return StatusCode(response.HttpCode, response);
+
+			if (!response.IsSuccess)
+			{
+				_logger.LogWarning("Failed to retrieve categories: {ErrorMessage}", response.Message);
+				return StatusCode(response.HttpCode, new { response.Message });
+			}
+
+			_logger.LogInformation("Successfully retrieved {Count} categories.", response.Data?.Count ?? 0);
+			return Ok(response.Data);
 		}
 
 		/// <summary>
 		/// Creates a new category.
 		/// </summary>
 		/// <param name="createCategoryDto">The DTO containing the category details.</param>
-		/// <returns>An IActionResult containing the created category.</returns>
+		/// <returns>The created category.</returns>
 		[HttpPost]
-		public async Task<IActionResult> CreateCategory(CreateCategoryDto createCategoryDto)
+		[ProducesResponseType(typeof(CategoryDto), 201)] // Created
+		[ProducesResponseType(400)] // Bad Request
+		[ProducesResponseType(500)] // Internal Server Error
+		public async Task<IActionResult> CreateCategory([FromBody] CreateCategoryDto createCategoryDto)
 		{
+			_logger.LogInformation("Received request to create a new category: {CategoryName}", createCategoryDto.Name);
+
 			var response = await _categoryService.CreateCategoryAsync(createCategoryDto);
-			return StatusCode(response.HttpCode, response);
+
+			if (!response.IsSuccess)
+			{
+				_logger.LogWarning("Category creation failed: {ErrorMessage}", response.Message);
+				return StatusCode(response.HttpCode, new { response.Message });
+			}
+
+			_logger.LogInformation("Category {CategoryId} created successfully.", response.Data?.Id);
+			return CreatedAtAction(nameof(GetCategories), new { id = response.Data?.Id }, response.Data);
 		}
 	}
 }

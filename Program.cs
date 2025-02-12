@@ -2,44 +2,44 @@
 using FenecApi.Extensions;
 using FenecApi.Mapping;
 
-namespace FenecApi
+namespace FenecApi;
+public class Program
 {
-    public class Program
-    {
-        public static void Main(string[] args)
-        {
-            var builder = WebApplication.CreateBuilder(args);
+	public static void Main(string[] args)
+	{
+		var builder = WebApplication.CreateBuilder(args);
 
-			// Add services to the container.
+		// Configure Logging (NLog)
+		builder.ConfigureLogging();
 
-
-			// Configure Services ==>
-			builder.Services.ConfigureDbContext(builder.Configuration);
-			builder.Services.ConfigureDependencies();
-			builder.Services.AddAutoMapper(typeof(AutoMapperProfile));
-
-
-			builder.Services.AddControllers();
-            // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-            builder.Services.AddEndpointsApiExplorer();
-            builder.Services.AddSwaggerGen();
-
-            var app = builder.Build();
-
-            // Configure the HTTP request pipeline.
-            if (app.Environment.IsDevelopment())
-            {
-                app.UseSwagger();
-                app.UseSwaggerUI();
-            }
-
-			// Configure Middlewares ==>
-			app.ConfigureMiddlewares();
+		// Add services to the container.
+		// Configure Services ==>
+		builder.Services.ConfigureDbContext(builder.Configuration);
+		builder.Services.ConfigureDependencies();
+		builder.Services.AddAutoMapper(typeof(AutoMapperProfile));
 
 
-			app.MapControllers();
+		builder.Services.AddControllers();
+		// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+		builder.Services.AddEndpointsApiExplorer();
+		builder.Services.AddSwaggerGen();
 
-            app.Run();
-        }
-    }
+		var app = builder.Build();
+
+		// Configure the HTTP request pipeline.
+		if (app.Environment.IsDevelopment())
+		{
+			app.UseSwagger();
+			app.UseSwaggerUI();
+		}
+
+		// Configure Middlewares ==>
+		app.ConfigureMiddlewares();
+
+
+		app.MapControllers();
+
+		app.Run();
+	}
 }
+
