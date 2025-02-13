@@ -5,13 +5,15 @@ name: Build and deploy ASP.Net Core app to Azure Web App - fenec-api
 
 on:
   push:
-    tags:
-      - "v*"
+    branches:
+      - master
   workflow_dispatch:
 
 jobs:
   build:
     runs-on: windows-latest
+    permissions:
+      contents: read #This is required for actions/checkout
 
     steps:
       - uses: actions/checkout@v4
@@ -41,6 +43,7 @@ jobs:
       url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
     permissions:
       id-token: write #This is required for requesting the JWT
+      contents: read #This is required for actions/checkout
 
     steps:
       - name: Download artifact from build job
@@ -51,9 +54,9 @@ jobs:
       - name: Login to Azure
         uses: azure/login@v2
         with:
-          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_C66E2AD6E08B4F3D9DA838B89F92C671 }}
-          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_307C448239B646DCB15F18DD9A671DA5 }}
-          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_0B6842E49DAA4DA4B01379820154A720 }}
+          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_8E40D37B5CF54009BA3D7070B5ED15DE }}
+          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_073FB1A9165C4C1F80E9B35C95CC8838 }}
+          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_B7482E0D3592469483646AEB5CB17D15 }}
 
       - name: Deploy to Azure Web App
         id: deploy-to-webapp
