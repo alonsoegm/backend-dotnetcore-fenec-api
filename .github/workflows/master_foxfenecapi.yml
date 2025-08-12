@@ -1,12 +1,12 @@
 # Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
 # More GitHub Actions for Azure: https://github.com/Azure/actions
 
-name: Build and deploy ASP.Net Core app to Azure Web App - fenec-api
+name: Build and deploy ASP.Net Core app to Azure Web App - foxfenecapi
 
 on:
   push:
-    tags:
-      - "v*"
+    branches:
+      - master
   workflow_dispatch:
 
 jobs:
@@ -38,9 +38,6 @@ jobs:
   deploy:
     runs-on: windows-latest
     needs: build
-    environment:
-      name: 'Production'
-      url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
     permissions:
       id-token: write #This is required for requesting the JWT
       contents: read #This is required for actions/checkout
@@ -54,15 +51,15 @@ jobs:
       - name: Login to Azure
         uses: azure/login@v2
         with:
-          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_8E40D37B5CF54009BA3D7070B5ED15DE }}
-          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_073FB1A9165C4C1F80E9B35C95CC8838 }}
-          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_B7482E0D3592469483646AEB5CB17D15 }}
+          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_3D5D370FF774471BA1C0D619BF4C6A49 }}
+          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_2828247A3624472CAF49CECE47A1FE99 }}
+          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_9CCB855A1478436C8706468A25DB8429 }}
 
       - name: Deploy to Azure Web App
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v3
         with:
-          app-name: 'fenec-api'
+          app-name: 'foxfenecapi'
           slot-name: 'Production'
           package: .
           
