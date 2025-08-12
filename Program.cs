@@ -1,7 +1,9 @@
 
 using FenecApi.Extensions;
 using FenecApi.Mapping;
-
+using Microsoft.ApplicationInsights.DependencyCollector;
+using Microsoft.ApplicationInsights.Extensibility;
+using Microsoft.ApplicationInsights.AspNetCore.Extensions;
 namespace FenecApi;
 public class Program
 {
@@ -23,6 +25,8 @@ public class Program
 		// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 		builder.Services.AddEndpointsApiExplorer();
 		builder.Services.AddSwaggerGen();
+		builder.Services.AddApplicationInsightsTelemetry();
+		builder.Services.AddHttpClient();  
 
 		var app = builder.Build();
 

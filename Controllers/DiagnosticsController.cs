@@ -1,6 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
 using Microsoft.ApplicationInsights;
+using Microsoft.ApplicationInsights.DataContracts;
+using System.Data;
+using System.Net.Http;
+using Microsoft.IdentityModel.Abstractions;
 
 namespace FenecApi.Controllers
 {
